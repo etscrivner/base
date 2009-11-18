@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-14 13:48:23 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-17 23:44:12 by Eric Scrivner>
 //
 // Description:
 //   Defines a class for representing and manipulating colors
@@ -51,11 +51,59 @@ namespace Base {
 			return *this;
 		}
 
+		inline Color operator + (const Color& rhs) {
+			return Color(r + rhs.r,
+			             g + rhs.g,
+			             b + rhs.b);
+		}
+
+		inline Color operator + (const Real& fAdd) {
+			return Color(r + fAdd,
+			             g + fAdd,
+			             b + fAdd);
+		}
+
+		inline Color operator - (const Color& rhs) {
+			return Color(r - rhs.r,
+			             g - rhs.g,
+			             b - rhs.b);
+		}
+
+		inline Color operator - (const Real& fSub) {
+			return Color(r - fSub,
+			             g - fSub,
+			             b - fSub);
+		}
+
+		inline Color operator * (const Color& rhs) {
+			return Color(r * rhs.r,
+			             g * rhs.g,
+			             b * rhs.b);
+		}
+
+		inline friend Color operator * (const Real& fMult, const Color& rhs) {
+			return Color(fMult * rhs.r,
+			             fMult * rhs.g,
+			             fMult * rhs.b);
+		}
+
 		inline Color operator * (const Real& fMult) {
 			return Color(r * fMult,
 			             g * fMult,
 			             b * fMult);
-		} 
+		}
+		
+		inline Color operator / (const Color& rhs) {
+			return Color(r / rhs.r,
+			             g / rhs.g,
+			             b / rhs.b);
+		}
+
+		inline Color operator / (const Real& fDenom) {
+			return Color(r / fDenom,
+			             g / fDenom,
+			             b / fDenom);
+		}
   };
 }
 

@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-14 12:44:20 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-15 14:21:29 by Eric Scrivner>
 //
 // Description:
 //   Represents a mathematical vector with four components for a homogeneous
@@ -124,7 +124,7 @@ namespace Base {
     // Computes the normal of this vector such that its magnitude becomes 1,
     // this is done by taking each of the components of this vector and dividing
     // it by the magnitude.
-    inline Vector4 normalize() {
+    inline Vector4 normalize() const {
       Real mag = magnitude();
 			return Vector4(x / mag,
 			               y / mag,

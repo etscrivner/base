@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-14 11:27:55 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-15 14:10:33 by Eric Scrivner>
 //
 // Description:
 //  Defines line drawing algorithms and one circle drawing algorithm
@@ -25,7 +25,7 @@ namespace Base {
   //
   // Plots a series of individual points which approximate the line from (x1, y1)
   // to (x2, y2) using the Digital Differential Analyzer (DDA) algorithm. This
-  // algorithm eliminates the multiplication need to compute the points on a
+  // algorithm eliminates the multiplication needed to compute the points on a
   // line using the slope-intercept equation y = mx + b.
   void DrawLineDDA(Real x1, Real y1, Real x2, Real y2);
 
@@ -38,7 +38,7 @@ namespace Base {
   //   x2 - The x-coordinate of the second point
   //   y2 - The y-coordinate of the second point
   //
-  // Plots a series of individual points whick approximate the line from (x1, y1)
+  // Plots a series of individual points which approximate the line from (x1, y1)
   // to (x2, y2) using Bresenham's midpoint algorithm. This algorithm uses the
   // midpoint of the line to determine the next pixel to plot and eliminates
   // the rounding operation from DDA and all multiplications from other
