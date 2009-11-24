@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-17 23:44:12 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-23 23:45:47 by Eric Scrivner>
 //
 // Description:
 //   Defines a class for representing and manipulating colors
@@ -10,6 +10,8 @@
 
 #ifndef COLOR_HPP__
 #define COLOR_HPP__
+
+#include <cmath>
 
 #include "base.hpp"
 
@@ -23,87 +25,90 @@ namespace Base {
   public:
     Real r, g, b; // The red, green and blue color components
   public:
-		////////////////////////////////////////////////////////////////////////////
-		// Standard Colors
+    ////////////////////////////////////////////////////////////////////////////
+    // Standard Colors
 
-		static const Color Black;
-		static const Color Red;
-		static const Color Green;
-		static const Color Blue;
-		static const Color White;
+    static const Color Black;
+    static const Color Red;
+    static const Color Green;
+    static const Color Blue;
+    static const Color White;
 
     Color()
-		  : r(1.0F), g(1.0F), b(1.0F)
+      : r(1.0F), g(1.0F), b(1.0F)
     { }
 
-		Color(const Color& copy)
-			: r(copy.r), g(copy.g), b(copy.b)
-		{ }
+    Color(const Color& copy)
+      : r(copy.r), g(copy.g), b(copy.b)
+    { }
 
     Color(const Real& red, const Real& green, const Real& blue)
       : r(red), g(green), b(blue)
     { }
 
-		Color& operator = (const Color& rhs) {
-			r = rhs.r;
-			g = rhs.g;
-			b = rhs.b;
-			return *this;
-		}
+    Color& operator = (const Color& rhs) {
+      r = rhs.r;
+      g = rhs.g;
+      b = rhs.b;
+      return *this;
+    }
 
-		inline Color operator + (const Color& rhs) {
-			return Color(r + rhs.r,
-			             g + rhs.g,
-			             b + rhs.b);
-		}
+    Color operator - () const {
+      return Color(-r, -g, -b);
+    }
 
-		inline Color operator + (const Real& fAdd) {
-			return Color(r + fAdd,
-			             g + fAdd,
-			             b + fAdd);
-		}
+    Color operator * (const Real& fScalar) const {
+      return Color(r * fScalar,
+                   g * fScalar,
+                   b * fScalar);
+    }
 
-		inline Color operator - (const Color& rhs) {
-			return Color(r - rhs.r,
-			             g - rhs.g,
-			             b - rhs.b);
-		}
+    friend Color operator * (const Real& fScalar, const Color& color) {
+      return Color(color.r * fScalar,
+                   color.g * fScalar,
+                   color.b * fScalar);
+    }
 
-		inline Color operator - (const Real& fSub) {
-			return Color(r - fSub,
-			             g - fSub,
-			             b - fSub);
-		}
+    Color operator / (const Real& fScalar) {
+      return Color(r / fScalar,
+                   g / fScalar,
+                   b / fScalar);
+    }
 
-		inline Color operator * (const Color& rhs) {
-			return Color(r * rhs.r,
-			             g * rhs.g,
-			             b * rhs.b);
-		}
+    Color operator + (const Color& rhs) {
+      return Color(r + rhs.r,
+                   g + rhs.g,
+                   b + rhs.b);
+    }
 
-		inline friend Color operator * (const Real& fMult, const Color& rhs) {
-			return Color(fMult * rhs.r,
-			             fMult * rhs.g,
-			             fMult * rhs.b);
-		}
+    Color operator - (const Color& rhs) {
+      return Color(r - rhs.r,
+                   g - rhs.g,
+                   b - rhs.b);
+    }
 
-		inline Color operator * (const Real& fMult) {
-			return Color(r * fMult,
-			             g * fMult,
-			             b * fMult);
-		}
-		
-		inline Color operator / (const Color& rhs) {
-			return Color(r / rhs.r,
-			             g / rhs.g,
-			             b / rhs.b);
-		}
+    Color operator * (const Color& rhs) {
+      return Color(r * rhs.r,
+                   g * rhs.g,
+                   b * rhs.b);
+    }
 
-		inline Color operator / (const Real& fDenom) {
-			return Color(r / fDenom,
-			             g / fDenom,
-			             b / fDenom);
-		}
+    Color operator / (const Color& rhs) {
+      return Color(r / rhs.r,
+                   g / rhs.g,
+                   b / rhs.b);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: gammaCorrect
+    //
+    // Performs gamma (brightness) correction by raising each internal color
+    // component to the power (1 / gamma).
+    inline Color gammaCorrect(const double& gamma) {
+      return Color(pow(r, 1 / gamma),
+                   pow(g, 1 / gamma),
+                   pow(b, 1 / gamma));
+    }
   };
 }
 

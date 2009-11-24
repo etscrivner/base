@@ -1,13 +1,13 @@
-# Makefile for Symphony
+# Makefile for Base
 # Author: Eric Scrivner
 #
-# Time-stamp: <Last modified 2009-11-14 14:27:42 by Eric Scrivner>
+# Time-stamp: <Last modified 2009-11-19 09:42:52 by Eric Scrivner>
 #
-# Can be used to build the first project
+# Makefile which provides a starting point for building a base project
 CC = g++
 CCFLAGS = -Wall -c
 OBJECTS = color.o plot.o main.o
-NAME = symphony
+NAME = base
 
 SHELL = /bin/sh
 OS = $(shell uname -s)
