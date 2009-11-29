@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-22 11:57:02 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 15:00:40 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -14,10 +14,7 @@ using namespace std;
 #include <cstdlib>
 
 #include "base.hpp"
-#include "color.hpp"
-#include "matrix44.hpp"
-#include "plot.hpp"
-#include "vector3.hpp"
+#include "image.hpp"
 using namespace Base;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +35,7 @@ const int kYMin = -kYMax;
 // Redraws the screen on an update
 void Redraw() {
   // Clear the screen
-  //glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
 
   // Swap the redraw buffer onto the screen
   glutSwapBuffers();
@@ -83,21 +80,8 @@ void OnKeyPress(unsigned char key, int, int) {
 // Function: Update
 //
 // Handles the idle loop updating of the simulation components
-Base::Color** pixBuf;
-
 void Update() {
-  Base::Plot(kXMin, kXMax, kYMin, kYMax, pixBuf);
-  glBegin(GL_POINTS);
-  for(size_t x = 0; x < kWindowWidth; x++) {
-    for (size_t y = 0; y < kWindowHeight; y++) {
-      glColor3f(pixBuf[x][y].r,
-                pixBuf[x][y].b,
-                pixBuf[x][y].g);
-      glVertex2i(kXMin + x, kYMin + y);
-    }
-  }
-  glEnd();
-  glutPostRedisplay();
+  // Do nothing...
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,13 +104,8 @@ void InitGlut(int& argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-  pixBuf = (Color**)malloc(sizeof(Color) * kWindowHeight * kWindowWidth);
-  for (size_t i = 0; i < kWindowWidth; i++) {
-    pixBuf[i] = new Color[kWindowHeight];
-  }
   InitGlut(argc, argv);
-
   glutMainLoop();
-  free(pixBuf);
+
   return 0;
 }

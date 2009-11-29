@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-23 23:45:47 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 14:37:12 by Eric Scrivner>
 //
 // Description:
 //   Defines a class for representing and manipulating colors
@@ -16,7 +16,13 @@
 #include "base.hpp"
 
 namespace Base {
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Function: ColorToByte
+  //
+  // Converts a real-valued color component into the range [0, 255].
+  Byte ColorToByte(Real color);
+
+  //////////////////////////////////////////////////////////////////////////////
   // Class: Color
   //
   // Represents a color as different ratios of red, green and blue color
