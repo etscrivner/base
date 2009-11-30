@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-21 15:31:51 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 17:36:43 by Eric Scrivner>
 //
 // Description:
 //   3D vector class.
@@ -38,11 +38,27 @@ namespace Base {
                      z + rhs.z);
     }
 
+		inline Vector3& operator += (const Vector3& rhs) {
+			x += rhs.x;
+			y += rhs.y;
+			z += rhs.z;
+
+			return *this;
+		}
+
     inline Vector3 operator - (const Vector3& rhs) const {
       return Vector3(x - rhs.x,
                      y - rhs.y,
                      z - rhs.z);
     }
+
+		inline Vector3& operator -= (const Vector3& rhs) {
+			x -= rhs.x;
+			y -= rhs.y;
+			z -= rhs.z;
+			
+			return *this;
+		}
 
     inline Vector3 operator * (const Real& fScalar) const {
       return Vector3(x * fScalar,

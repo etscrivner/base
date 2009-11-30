@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-15 14:21:29 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 17:38:09 by Eric Scrivner>
 //
 // Description:
 //   Represents a mathematical vector with four components for a homogeneous
@@ -15,6 +15,7 @@
 #include <cmath>
 
 #include "base.hpp"
+#include "vector3.hpp"
 
 namespace Base {
   //////////////////////////////////////////////////////////////////////////////
@@ -33,6 +34,13 @@ namespace Base {
       : x(fX), y(fY), z(fZ), w(fW)
     { }
 
+		inline explicit Vector4(const Vector3& vec3)
+			: x(vec3.x),
+			  y(vec3.y),
+			  z(vec3.z),
+			  w(1.0F)
+		{ }
+
     inline explicit Vector4(const Real afCoordinate[4])
       : x(afCoordinate[0]),
         y(afCoordinate[1]),
@@ -47,6 +55,14 @@ namespace Base {
       w = rhs.w;
       return *this;
     }
+
+		inline Vector4& operator = (const Vector3& rhs) {
+			x = rhs.x;
+			y = rhs.y;
+			z = rhs.z;
+			w = 1.0F;
+			return *this;
+		}
 
     inline bool operator == (const Vector4& rhs) {
       return (x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w);

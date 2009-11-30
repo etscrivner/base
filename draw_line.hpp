@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-15 14:10:33 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 17:42:02 by Eric Scrivner>
 //
 // Description:
 //  Defines line drawing algorithms and one circle drawing algorithm
@@ -12,9 +12,22 @@
 #define DRAW_LINE_HPP__
 
 #include "base.hpp"
+#include "color.hpp"
+#include "vector3.hpp"
 
 namespace Base {
-  ////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	// Function: DrawLine
+	//
+	// Parameters:
+	//   start - The starting vertex of the line
+	//   end - The ending vertex of the line
+	//   color - The color of the line
+	//
+	// Draws a line of the given color between two vertices
+	void DrawLine(const Vector3& start, const Vector3& end, const Color& color);
+
+  //////////////////////////////////////////////////////////////////////////////
   // Function: DrawLineDDA
   //
   // Parameters:
@@ -29,7 +42,7 @@ namespace Base {
   // line using the slope-intercept equation y = mx + b.
   void DrawLineDDA(Real x1, Real y1, Real x2, Real y2);
 
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Function: DrawLineBresenham
   //
   // Parameters:
@@ -45,7 +58,7 @@ namespace Base {
   // algorithms.
   void DrawLineBresenham(Real x1, Real y1, Real x2, Real y2);
 
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Function: DrawCircleMidpoint
   //
   // Paramters:

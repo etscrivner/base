@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 15:00:40 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 16:47:04 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -36,6 +36,8 @@ const int kYMin = -kYMax;
 void Redraw() {
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT);
+
+  // Render stuff here...
 
   // Swap the redraw buffer onto the screen
   glutSwapBuffers();

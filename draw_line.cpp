@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-14 11:25:51 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 17:44:20 by Eric Scrivner>
 //
 // Description:
 //  Defines line drawing algorithms and one circle drawing algorithm.
@@ -10,6 +10,18 @@
 
 #include "plot.hpp"
 #include "draw_line.hpp"
+
+void Base::DrawLine(const Base::Vector3& start,
+                    const Base::Vector3& end,
+                    const Base::Color& color) {
+	// Set the drawing color
+	glColor3f(color.r, color.g, color.b);
+
+	// Draw the line using the fastest algorithm we have
+	Base::DrawLineBresenham(start.x, start.y, end.x, end.y);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 void Base::DrawLineDDA(Real x1, Real y1, Real x2, Real y2) {
   // First we compute the change in the x and y directions as the difference
@@ -56,15 +68,15 @@ void Base::DrawLineBresenham(Real x1, Real y1, Real x2, Real y2) {
 	
   // If the line is steep then the x and y values should be swapped
   if (steep) {
-    swap(x1, y1);
-    swap(x2, y2);
+		std::swap(x1, y1);
+		std::swap(x2, y2);
   }
 
   // If the x coordinates are decreasing then swap the starting x coordinates
   // and then swap the y coordinates.
   if (x1 > x2) {
-    swap(x2, x1);
-    swap(y2, y1);
+		std::swap(x2, x1);
+		std::swap(y2, y1);
   }
 
   // Initialize our line plotting variables
