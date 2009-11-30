@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 14:42:19 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 17:57:04 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels
@@ -21,7 +21,7 @@ namespace Base {
   // Class: Image
   //
   // Represents an image as an array of colored pixels and allows for saving
-  // the image into the TGA file format.
+  // the image into the TGA file format (not copy or exception safe).
   class Image {
   public:
     Image(const int& w, const int& h)
@@ -32,10 +32,26 @@ namespace Base {
       delete [] data_;
     }
 
+		////////////////////////////////////////////////////////////////////////////
+		// Function: width
+		//
+		// Returns the width of the image in pixels
     const size_t width() const { return width_; }
 
+		////////////////////////////////////////////////////////////////////////////
+		// Function: height
+		//
+		// Returns the height of the image in pixels
     const size_t height() const { return height_; }
 
+		////////////////////////////////////////////////////////////////////////////
+		// Function: pixelAt
+		//
+		// Parameters:
+		//   x - The x coordinate (should be positive)
+		//   y - The y coordinate (should be positive)
+		//
+		// Returns the color of the pixel at the given coordinates
     const Color pixelAt(const int& x, const int& y) {
       assert(x >= 0 && x < width_);
       assert(y >= 0 && y < height_);
@@ -48,10 +64,14 @@ namespace Base {
     // Sets all the pixels in the image to the given color
     void fill(const Color& color) {
       for (int i = 0; i < width_ * height_; i++) {
-	data_[i] = color;
+				data_[i] = color;
       }
     }
 
+		////////////////////////////////////////////////////////////////////////////
+		// Function: setPixel
+		//
+		// Sets the pixel at the given position to the given color
     void setPixel(const int& x, const int& y, const Color& color) {
       assert(x >= 0 && x < width_);
       assert(y >= 0 && y < height_);
