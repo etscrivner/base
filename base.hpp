@@ -15,6 +15,7 @@
 #include <string>
 
 // C includes
+#include <cassert>
 
 // OpenGL includes
 #if defined(__APPLE__) || defined(MACOSX)
