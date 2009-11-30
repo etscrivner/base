@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-14 11:09:57 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 18:10:03 by Eric Scrivner>
 //
 // Description:
 //   Contains basic type definitions
@@ -13,6 +13,7 @@
 
 // C++ includes
 #include <string>
+#include <limits>
 
 // C includes
 #include <cassert>
@@ -43,6 +44,8 @@ namespace Base {
   typedef float  F32;
   typedef double F64;
   typedef double Real;
+
+	typedef std::numeric_limits<Real> RealLimits; // Used to find infinity value
 }
 
 #endif // BASE_HPP__

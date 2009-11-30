@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 17:24:31 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 18:11:35 by Eric Scrivner>
 //
 // Description:
 //   Represents a model loaded from an OBJ file and provides methods for
@@ -66,6 +66,16 @@ namespace Base {
 	// Represents a model loaded from a file in OBJ format.
 	class Model {
 	public:
+		////////////////////////////////////////////////////////////////////////////
+		// Function: load
+		//
+		// Parameters:
+		//   fileName - The name of the file to be loaded
+		//
+		// Loads the OBJ model from the given file into the class, returning true
+		// if the model was loaded and false otherwise.
+		bool load(const std::string& fileName);
+
 		////////////////////////////////////////////////////////////////////////////
 		// Function: draw
 		//
