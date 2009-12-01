@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 17:48:00 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 11:18:21 by Eric Scrivner>
 //
 // Description:
 //   Class representing a ray to be traced
@@ -34,7 +34,7 @@ namespace Base {
     //   t - The parametric value for the position of the ray
     //
     // Returns the position of the ray at the given time (parametric value).
-    Vector3 positionAtTime(const Real& t) { 
+    Vector3 positionAtTime(const Real& t) const { 
       return origin + t * direction;
     }
   };

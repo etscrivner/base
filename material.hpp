@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 00:23:08 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 11:24:14 by Eric Scrivner>
 //
 // Description:
 //   Class for representing a material's hit by light rays
@@ -96,7 +96,7 @@ namespace Base {
                 const Color& lightColor) const {
       // Diffuse lighting as C_d * (L . N)
       Vector3 l = dirToLight;
-      Vector3 n = hit.normal;
+      Vector3 n = hit.getNormal();
       Color result = lightColor * diffuse * (l.dotProduct(n));
 
       // Specular lighting as C_s * (V . R)

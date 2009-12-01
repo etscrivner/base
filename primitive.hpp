@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+// Base: A Simple Graphics Suite
+// Author: Eric Scrivner
+//
+// Time-stamp: <Last modified 2009-12-01 11:26:53 by Eric Scrivner>
+//
+// Description:
+//   Primitive shapes for ray-surface intersections
+////////////////////////////////////////////////////////////////////////////////
 #ifndef PRIMITIVE_HPP__
 #define PRIMITIVE_HPP__
 
@@ -17,8 +26,11 @@ namespace Base {
   // ray-surface intersections.
   class Primitive {
   public:
-    Primitive(const Material& mat)
+    Primitive(Material* mat)
       : material(mat)
+    { }
+
+    virtual ~Primitive()
     { }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -31,9 +43,9 @@ namespace Base {
     // Returns true if an intersection between the given ray and this primitive
     // occurs and hit is filled with the information regarding the hit. False
     // otherwise.
-    virtual bool intersection(const Ray& ray, const Hit& hit) = 0;
+    virtual bool intersection(const Ray& ray, Hit& hit) = 0;
 
-    Material material; // The material properties of the primitive
+    Material* material; // The material properties of the primitive
   };
 
   //////////////////////////////////////////////////////////////////////////////
@@ -44,12 +56,38 @@ namespace Base {
   public:
     Sphere(const Vector3& center,
            Real radius,
-           const Material& mat)
+           Material* mat)
       : Primitive(mat), center_(center), radius_(radius)
     { }
 
-    bool intersection(const Ray& ray, const Hit& hit) {
-      // TODO: Write ray-sphere intersection code
+    bool intersection(const Ray& ray, Hit& hit) {
+      Vector3 co = center_ - ray.origin;
+      Real rayCos = co.dotProduct(ray.direction);
+      Real distance = -1;
+
+      // If the angle is between 0 and 90 degrees
+      if (rayCos >= 0) {
+	// Compute the discriminant
+	Real disc = pow(radius_, 2) - (co.dotProduct(co) - pow(rayCos, 2));
+
+	// If the value is non-imaginary compute the distance
+	distance = (disc < 0) ? 0 : rayCos - sqrt(disc);
+      }
+
+      // If the distance was positive
+      if (distance >= 0) {
+	// Compute the surface normal
+	Vector3 normal = ray.positionAtTime(distance) - center_;
+
+	// Fill in the hit information and indicate an intersection
+	hit.setDistance(distance);
+	hit.setNormal(normal.normalize());
+	hit.setMaterial(material);
+
+	return true;
+      }
+
+      return false;
     }
   private:
     Vector3 center_;
@@ -66,15 +104,16 @@ namespace Base {
     Triangle(const Vector3& v1,
              const Vector3& v2,
              const Vector3& v3,
-             const Material& mat)
+             Material* mat)
       : Primitive(mat), v1_(v1), v2_(v2), v3_(v3)
     { }
 
-    bool intersection(const Ray& ray, const Hit& hit) {
+    bool intersection(const Ray& ray, Hit& hit) {
       // TODO: Write ray-triangle intersection code
+      return false;
     }
   private:
-    Vector3 v1_, v2_, v3; // The vertices of this triangle
+    Vector3 v1_, v2_, v3_; // The vertices of this triangle
   };
 }
 

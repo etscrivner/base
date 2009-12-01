@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 00:18:40 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 11:15:59 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -15,6 +15,7 @@ using namespace std;
 
 #include "base.hpp"
 #include "material.hpp"
+#include "primitive.hpp"
 using namespace Base;
 
 ////////////////////////////////////////////////////////////////////////////////
