@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 11:15:59 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 12:19:46 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -107,6 +107,11 @@ void InitGlut(int& argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
+  Group* gp = new Group;
+  PhongMaterial mat(Color::White, Color::White, 0, Color::White, Color::White, 0);
+  Sphere* sphere = new Sphere(Vector3(0,0,0), 1, &mat);
+  gp->addPrimitive(sphere);
+  delete gp;
   InitGlut(argc, argv);
   glutMainLoop();
 

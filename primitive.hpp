@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 11:26:53 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 12:22:03 by Eric Scrivner>
 //
 // Description:
 //   Primitive shapes for ray-surface intersections
@@ -13,6 +13,9 @@
 #include "hit.hpp"
 #include "ray.hpp"
 #include "vector3.hpp"
+
+#include <memory>
+#include <vector>
 
 namespace Base {
   //////////////////////////////////////////////////////////////////////////////
@@ -49,6 +52,50 @@ namespace Base {
   };
 
   //////////////////////////////////////////////////////////////////////////////
+  // Class: Group
+  //
+  // Represents a group of primitive objects
+  class Group : public Primitive {
+  public:
+    Group()
+      : Primitive(0)
+    { }
+
+    ~Group() {
+      for (std::vector<Primitive*>::iterator it = primitives_.begin();
+	   it != primitives_.end(); it++) {
+	delete *it;;
+      }
+      primitives_.clear();
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: addPrimitive
+    //
+    // Adds a primitive to this primitive group
+    void addPrimitive(Primitive* p) {
+      primitives_.push_back(p);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: intersection
+    //
+    // Computes the closest intersecting primitive in this group
+    bool intersection(const Ray& ray, Hit& hit) {
+      bool didHit = false;
+
+      for (size_t i = 0; i < primitives_.size(); i++) {
+	if (primitives_[i]->intersection(ray, hit)) {
+	  didHit = true;
+	}
+      }
+
+      return didHit;
+    }
+  private:
+    std::vector<Primitive*> primitives_; // The internal primitives
+  };
+
+  //////////////////////////////////////////////////////////////////////////////
   // Class: Sphere
   //
   // A sphere primitive which can be used to check for ray-sphere intersection
@@ -60,6 +107,11 @@ namespace Base {
       : Primitive(mat), center_(center), radius_(radius)
     { }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: intersection
+    //
+    // Computes the ray-sphere intersection returning true if an intersection
+    // occurred or false otherwise.
     bool intersection(const Ray& ray, Hit& hit) {
       Vector3 co = center_ - ray.origin;
       Real rayCos = co.dotProduct(ray.direction);
@@ -74,8 +126,8 @@ namespace Base {
 	distance = (disc < 0) ? 0 : rayCos - sqrt(disc);
       }
 
-      // If the distance was positive
-      if (distance >= 0) {
+      // If the distance was positive and closer than the closest hit
+      if (distance >= 0 && distance < hit.getDistance()) {
 	// Compute the surface normal
 	Vector3 normal = ray.positionAtTime(distance) - center_;
 

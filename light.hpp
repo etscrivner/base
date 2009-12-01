@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 23:57:11 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 11:41:49 by Eric Scrivner>
 //
 // Description:
 //   Defines a simple point light source model
@@ -18,18 +18,23 @@ namespace Base {
   //////////////////////////////////////////////////////////////////////////////
   // Class: Light
   //
-  // Models a point light source with a position and color.
+  // Models a simple directional light source
   class Light {
   public:
     Light()
     { }
 
-    Light(const Color& col, const Vector4& pos)
-      : color(col), position(pos)
+    Light(const Color& col, const Vector4& dir)
+      : color_(col), direction_(dir)
     { }
 
-    Color   color;
-    Vector4 position;
+    void illuminationAt(const Vector3& pnt, Vector3& dir, Color& col) {
+      col = color_;
+      dir = -1.0 * direction_;
+    } 
+  private:
+    Color   color_;
+    Vector4 direction_;
   };
 }
 
