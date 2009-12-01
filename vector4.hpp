@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 17:38:09 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 23:27:16 by Eric Scrivner>
 //
 // Description:
 //   Represents a mathematical vector with four components for a homogeneous
@@ -34,12 +34,12 @@ namespace Base {
       : x(fX), y(fY), z(fZ), w(fW)
     { }
 
-		inline explicit Vector4(const Vector3& vec3)
-			: x(vec3.x),
-			  y(vec3.y),
-			  z(vec3.z),
-			  w(1.0F)
-		{ }
+    inline explicit Vector4(const Vector3& vec3)
+      : x(vec3.x),
+        y(vec3.y),
+        z(vec3.z),
+        w(1.0F)
+    { }
 
     inline explicit Vector4(const Real afCoordinate[4])
       : x(afCoordinate[0]),
@@ -56,13 +56,13 @@ namespace Base {
       return *this;
     }
 
-		inline Vector4& operator = (const Vector3& rhs) {
-			x = rhs.x;
-			y = rhs.y;
-			z = rhs.z;
-			w = 1.0F;
-			return *this;
-		}
+    inline Vector4& operator = (const Vector3& rhs) {
+      x = rhs.x;
+      y = rhs.y;
+      z = rhs.z;
+      w = 1.0F;
+      return *this;
+    }
 
     inline bool operator == (const Vector4& rhs) {
       return (x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w);
@@ -76,40 +76,40 @@ namespace Base {
       return Vector4(-x, -y, -z, -w);
     }
 
-		inline Vector4 operator + (const Vector4& rhs) {
-			return Vector4(x + rhs.x,
-			               y + rhs.y,
-			               z + rhs.z,
-			               w + rhs.w);
-		}
+    inline Vector4 operator + (const Vector4& rhs) {
+      return Vector4(x + rhs.x,
+                     y + rhs.y,
+                     z + rhs.z,
+                     w + rhs.w);
+    }
 
-		inline Vector4 operator - (const Vector4& rhs) {
-			return Vector4(x - rhs.x,
-			               y - rhs.y,
-			               z - rhs.z,
-			               w - rhs.w);
-		}
+    inline Vector4 operator - (const Vector4& rhs) {
+      return Vector4(x - rhs.x,
+                     y - rhs.y,
+                     z - rhs.z,
+                     w - rhs.w);
+    }
 
-		inline Vector4 operator * (const Vector4& rhs) {
-			return Vector4(x * rhs.x,
-			               y * rhs.y,
-			               z * rhs.z,
-			               w * rhs.w);
-		}
+    inline Vector4 operator * (const Vector4& rhs) {
+      return Vector4(x * rhs.x,
+                     y * rhs.y,
+                     z * rhs.z,
+                     w * rhs.w);
+    }
 
-		inline Vector4 operator * (const Real& fScalar) {
-			return Vector4(x * fScalar,
-			               y * fScalar,
-			               z * fScalar,
-			               w * fScalar);
-		}
+    inline Vector4 operator * (const Real& fScalar) {
+      return Vector4(x * fScalar,
+                     y * fScalar,
+                     z * fScalar,
+                     w * fScalar);
+    }
 
-		inline Vector4 operator / (const Vector4& rhs) {
-			return Vector4(x / rhs.x,
-			               y / rhs.y,
-			               z / rhs.z,
-			               w / rhs.w);
-		}
+    inline Vector4 operator / (const Vector4& rhs) {
+      return Vector4(x / rhs.x,
+                     y / rhs.y,
+                     z / rhs.z,
+                     w / rhs.w);
+    }
 		
     inline friend Vector4 operator * (const Real fScalar, const Vector4& vec) {
       return Vector4(fScalar * vec.x,
@@ -142,10 +142,14 @@ namespace Base {
     // it by the magnitude.
     inline Vector4 normalize() const {
       Real mag = magnitude();
-			return Vector4(x / mag,
-			               y / mag,
-			               z / mag,
-			               w / mag);
+      if (mag == 0) {
+	return Vector4(0, 0, 0, 0);
+      } else {
+	return Vector4(x / mag,
+	               y / mag,
+	               z / mag,
+	               w / mag);
+      }
     }
 
     ////////////////////////////////////////////////////////////////////////////
