@@ -2,13 +2,15 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 18:15:22 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 22:18:21 by Eric Scrivner>
 //
 // Description:
 //   2D vector class.
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef VECTOR2_HPP__
 #define VECTOR2_HPP__
+
+#include "base.hpp"
 
 namespace Base {
   //////////////////////////////////////////////////////////////////////////////

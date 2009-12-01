@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 18:09:27 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 23:25:53 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -14,14 +14,15 @@ using namespace std;
 #include <cstdlib>
 
 #include "base.hpp"
+#include "camera.hpp"
 #include "image.hpp"
 using namespace Base;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
 
-const unsigned int kWindowWidth  = 640;
-const unsigned int kWindowHeight = 480;
+const unsigned int kWindowWidth  = 600;
+const unsigned int kWindowHeight = 600;
 const char*        kWindowTitle  = "Symphony App";
 
 const int kXMax = (kWindowWidth / 2);
@@ -106,6 +107,16 @@ void InitGlut(int& argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
+  Base::OrthographicCamera cam(Vector3(0, 0, 0), Vector3(0, 0, -1),
+                               Vector3(0, 1, 0), kWindowHeight);
+
+  for (Real y = 0.0; y <= 1.0F; y += 0.50F) {
+    for (Real x = 0.0; x <= 1.0F; x += 0.50F) {
+      Ray next = cam.generateRay(Vector2(x, y));
+      cout<< next.origin.x << ", " << next.origin.y << endl;
+    }
+  }
+
   InitGlut(argc, argv);
   glutMainLoop();
 

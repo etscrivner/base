@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 18:29:44 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 23:24:03 by Eric Scrivner>
 //
 // Description:
 //   Contains camera for use in the ray tracer.
@@ -10,16 +10,21 @@
 #ifndef CAMERA_HPP__
 #define CAMERA_HPP__
 
-#include "ray"
+#include "ray.hpp"
 #include "vector2.hpp"
+#include "vector3.hpp"
 
 namespace Base {
+  
   //////////////////////////////////////////////////////////////////////////////
   // Class: Camera
   //
   // Abstract base class for all cameras
   class Camera {
   public:
+    virtual ~Camera()
+    { }
+
     ////////////////////////////////////////////////////////////////////////////
     // Function: generateRay
     //
@@ -68,8 +73,8 @@ namespace Base {
     // Returns a ray traveling from point into the scene
     Ray generateRay(const Vector2& point) {
       Vector3 origin = center_;
-      origin += (size / 2) * (point.x - 0.5) * horizontal_;
-      origin += (size / 2) * (point.y - 0.5) * up_;
+      origin += size_ * (point.x - 0.5) * horizontal_;
+      origin += size_ * (point.y - 0.5) * up_;
       return Ray(origin, direction_);
     }
   private:

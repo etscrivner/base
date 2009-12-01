@@ -2,16 +2,27 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 14:55:07 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 18:36:39 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "image.hpp"
+#include "plot.hpp"
 
 #include <fstream>
 using namespace std;
+
+void Base::Image::draw(const int& xMin, const int& yMin) {
+	for (int y = 0; y < height_; y++) {
+		for (int x = 0; x < width_; x++) {
+			Plot(xMin + x, yMin + y, pixelAt(x, y));
+		}
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 void Base::Image::saveAsTga(string fileName) {
   // If we were not given a filename

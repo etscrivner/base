@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 17:57:04 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-29 18:35:22 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels
@@ -77,6 +77,12 @@ namespace Base {
       assert(y >= 0 && y < height_);
       data_[y * width_ + x] = color;
     }
+
+		////////////////////////////////////////////////////////////////////////////
+		// Function: draw
+		// 
+		// Draws the image onto the screen starting at position (xMin, yMin).
+		void draw(const int& xMin, const int& yMin);
 
     ////////////////////////////////////////////////////////////////////////////
     // Function: saveAsTga

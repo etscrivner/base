@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 17:36:43 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 22:10:13 by Eric Scrivner>
 //
 // Description:
 //   3D vector class.
@@ -11,6 +11,9 @@
 #define VECTOR3_HPP__
 
 #include "base.hpp"
+#include "vector2.hpp"
+
+#include <cmath>
 
 namespace Base {
   //////////////////////////////////////////////////////////////////////////////
@@ -22,6 +25,10 @@ namespace Base {
     double x, y, z;
   public:
     Vector3()
+    { }
+
+    Vector3(const Vector2& v)
+      : x(v.x), y(v.y), z(0)
     { }
 
     Vector3(const double& fX, const double& fY, const double& fZ)
@@ -38,13 +45,13 @@ namespace Base {
                      z + rhs.z);
     }
 
-		inline Vector3& operator += (const Vector3& rhs) {
-			x += rhs.x;
-			y += rhs.y;
-			z += rhs.z;
+    inline Vector3& operator += (const Vector3& rhs) {
+      x += rhs.x;
+      y += rhs.y;
+      z += rhs.z;
 
-			return *this;
-		}
+      return *this;
+    }
 
     inline Vector3 operator - (const Vector3& rhs) const {
       return Vector3(x - rhs.x,
@@ -52,13 +59,13 @@ namespace Base {
                      z - rhs.z);
     }
 
-		inline Vector3& operator -= (const Vector3& rhs) {
-			x -= rhs.x;
-			y -= rhs.y;
-			z -= rhs.z;
+    inline Vector3& operator -= (const Vector3& rhs) {
+      x -= rhs.x;
+      y -= rhs.y;
+      z -= rhs.z;
 			
-			return *this;
-		}
+      return *this;
+    }
 
     inline Vector3 operator * (const Real& fScalar) const {
       return Vector3(x * fScalar,
@@ -92,9 +99,13 @@ namespace Base {
     // Converts this vector to a unit vector
     inline Vector3 normalize() const {
       Real mag = magnitude();
-      return Vector3(x / mag,
-                     y / mag,
-                     z / mag);
+      if (mag == 0) {
+	return Vector3(0, 0, 0);
+      } else {
+	return Vector3(x / mag,
+	               y / mag,
+	               z / mag);
+      }
     }
 
     ////////////////////////////////////////////////////////////////////////////
