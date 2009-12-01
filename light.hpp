@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-15 13:31:51 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 23:57:11 by Eric Scrivner>
 //
 // Description:
 //   Defines a simple point light source model
@@ -15,39 +15,22 @@
 #include "vector4.hpp"
 
 namespace Base {
-	//////////////////////////////////////////////////////////////////////////////
-	// Class: Light
-	//
-	// Models a point light source with a position and color.
-	class Light {
-	public:
-		Light()
-		{ }
+  //////////////////////////////////////////////////////////////////////////////
+  // Class: Light
+  //
+  // Models a point light source with a position and color.
+  class Light {
+  public:
+    Light()
+    { }
 
-		Light(const Color& col, const Vector4& pos)
-			: color(col), position(pos)
-		{ }
+    Light(const Color& col, const Vector4& pos)
+      : color(col), position(pos)
+    { }
 
-		Color   color;
-		Vector4 position;
-	};
-
-	//////////////////////////////////////////////////////////////////////////////
-	// Class: AmbientLight
-	//
-	// Defines ambient lighting given by a color and intesity.
-	class AmbientLight {
-	public:
-		AmbientLight()
-		{ }
-
-		AmbientLight(const Color& col, const Real& intense)
-			: color(col), intensity(intense)
-		{ }
-
-		Color color;
-		Real  intensity;
-	};
+    Color   color;
+    Vector4 position;
+  };
 }
 
 #endif // LIGHT_HPP__

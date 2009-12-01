@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 14:37:12 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 00:24:24 by Eric Scrivner>
 //
 // Description:
 //   Defines a class for representing and manipulating colors
@@ -86,6 +86,13 @@ namespace Base {
                    g + rhs.g,
                    b + rhs.b);
     }
+    
+    Color& operator += (const Color& rhs) {
+      r += rhs.r;
+      g += rhs.g;
+      b += rhs.b;
+      return *this;
+    }
 
     Color operator - (const Color& rhs) {
       return Color(r - rhs.r,
@@ -94,6 +101,12 @@ namespace Base {
     }
 
     Color operator * (const Color& rhs) {
+      return Color(r * rhs.r,
+                   g * rhs.g,
+                   b * rhs.b);
+    }
+
+    const Color operator * (const Color& rhs) const {
       return Color(r * rhs.r,
                    g * rhs.g,
                    b * rhs.b);

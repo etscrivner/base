@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 22:18:21 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-11-30 23:31:24 by Eric Scrivner>
 //
 // Description:
 //   2D vector class.
