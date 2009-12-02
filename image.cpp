@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-29 18:36:39 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 01:29:13 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels
@@ -15,11 +15,11 @@
 using namespace std;
 
 void Base::Image::draw(const int& xMin, const int& yMin) {
-	for (int y = 0; y < height_; y++) {
-		for (int x = 0; x < width_; x++) {
-			Plot(xMin + x, yMin + y, pixelAt(x, y));
-		}
-	}
+  for (int y = 0; y < height_; y++) {
+    for (int x = 0; x < width_; x++) {
+      Plot(xMin + x, yMin + y, pixelAt(x, y));
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +41,7 @@ void Base::Image::saveAsTga(string fileName) {
   ofstream tgaOut(fileName.c_str());
 
   // If the file couldn't be opened
+  assert(tgaOut.is_open());
   if (!tgaOut.is_open()) {
     // Probably don't have write access, so exit
     return;

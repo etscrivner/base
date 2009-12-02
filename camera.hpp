@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 23:24:03 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 02:12:17 by Eric Scrivner>
 //
 // Description:
 //   Contains camera for use in the ray tracer.
@@ -41,7 +41,7 @@ namespace Base {
   //
   // An orthographic camera which projects rays into the scene along a constant
   // direction and varying origin.
-  class OrthographicCamera {
+  class OrthographicCamera : public Camera {
   public:
     ////////////////////////////////////////////////////////////////////////////
     // Function: OrthographicCamera
@@ -60,7 +60,7 @@ namespace Base {
       : center_(center.normalize()),
         direction_(direction.normalize()), 
         up_(up.normalize()),
-        horizontal_(direction_.crossProduct(up_)),
+        horizontal_(direction_.crossProduct(up_).normalize()),
         size_(size)        
     { }
 

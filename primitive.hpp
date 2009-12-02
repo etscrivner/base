@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 12:22:03 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 01:12:54 by Eric Scrivner>
 //
 // Description:
 //   Primitive shapes for ray-surface intersections
@@ -64,7 +64,7 @@ namespace Base {
     ~Group() {
       for (std::vector<Primitive*>::iterator it = primitives_.begin();
 	   it != primitives_.end(); it++) {
-	delete *it;;
+	delete *it;
       }
       primitives_.clear();
     }
@@ -117,26 +117,28 @@ namespace Base {
       Real rayCos = co.dotProduct(ray.direction);
       Real distance = -1;
 
-      // If the angle is between 0 and 90 degrees
-      if (rayCos >= 0) {
-	// Compute the discriminant
-	Real disc = pow(radius_, 2) - (co.dotProduct(co) - pow(rayCos, 2));
+      // Compute the discriminant
+      Real discTmp = (co - (co.dotProduct(ray.direction) * ray.direction)).magnitude();
+      Real disc = pow(radius_, 2) - pow(discTmp, 2);
+      
+      // If the value is non-imaginary
+      if (disc >= 0) {
+	// Compute the distance to the intersection
+	distance = (disc < 0) ? 0 : min(rayCos + sqrt(disc),
+	                                rayCos - sqrt(disc));
 
-	// If the value is non-imaginary compute the distance
-	distance = (disc < 0) ? 0 : rayCos - sqrt(disc);
-      }
+	// If the distance was positive and closer than the closest hit
+	if (distance >= 0 && distance < hit.getDistance()) {
+	  // Compute the surface normal
+	  Vector3 normal = ray.positionAtTime(distance) - center_;
+	  
+	  // Fill in the hit information and indicate an intersection
+	  hit.setDistance(distance);
+	  hit.setNormal(normal.normalize());
+	  hit.setMaterial(material);
 
-      // If the distance was positive and closer than the closest hit
-      if (distance >= 0 && distance < hit.getDistance()) {
-	// Compute the surface normal
-	Vector3 normal = ray.positionAtTime(distance) - center_;
-
-	// Fill in the hit information and indicate an intersection
-	hit.setDistance(distance);
-	hit.setNormal(normal.normalize());
-	hit.setMaterial(material);
-
-	return true;
+	  return true;
+	}
       }
 
       return false;

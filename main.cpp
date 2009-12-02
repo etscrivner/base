@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 12:19:46 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 02:15:47 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -14,21 +14,31 @@ using namespace std;
 #include <cstdlib>
 
 #include "base.hpp"
+#include "camera.hpp"
+#include "image.hpp"
+#include "light.hpp"
 #include "material.hpp"
 #include "primitive.hpp"
+#include "ray_tracer.hpp"
+#include "scene.hpp"
 using namespace Base;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
 
-const unsigned int kWindowWidth  = 600;
-const unsigned int kWindowHeight = 600;
+const unsigned int kWindowWidth  = 200;
+const unsigned int kWindowHeight = 200;
 const char*        kWindowTitle  = "Symphony App";
 
 const int kXMax = (kWindowWidth / 2);
 const int kYMax = (kWindowHeight / 2);
 const int kXMin = -kXMax;
 const int kYMin = -kYMax;
+
+////////////////////////////////////////////////////////////////////////////////
+// Scene
+RayTracer* rt = 0;
+Image img(kWindowWidth, kWindowHeight);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function: Redraw
@@ -38,7 +48,8 @@ void Redraw() {
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT);
 
-  // Render stuff here...
+  // Draw the image
+  img.draw(kXMin, kYMin);
 
   // Swap the redraw buffer onto the screen
   glutSwapBuffers();
@@ -83,8 +94,24 @@ void OnKeyPress(unsigned char key, int, int) {
 // Function: Update
 //
 // Handles the idle loop updating of the simulation components
+Real normalizeX(int x) { return (x < 0) ? -(Real)(kXMax + x) / kXMax : (Real)x / kXMax; }
+Real normalizeY(int y) { return (y < 0) ? -(Real)(kYMax + y) / kYMax : (Real)y / kYMax; }
+Vector2 normalized(int x, int y) { return Vector2(normalizeX(x), normalizeY(y)); }
+
 void Update() {
-  // Do nothing...
+  Ray nextRay(Vector3(0,0,0), Vector3(0,0,0));
+  Hit hit;
+  Color pixVal;
+
+  for (int y = kYMin; y < kYMax; y++) {
+    for (int x = kXMin; x < kXMax; x++) {
+      nextRay = rt->getScene()->getCamera()->generateRay(normalized(x, y));
+      pixVal = rt->traceRay(nextRay, 0, hit);
+      img.setPixel(x + kXMax, y + kYMax, pixVal);
+    }
+  }
+
+  glutPostRedisplay();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,13 +134,24 @@ void InitGlut(int& argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-  Group* gp = new Group;
-  PhongMaterial mat(Color::White, Color::White, 0, Color::White, Color::White, 0);
-  Sphere* sphere = new Sphere(Vector3(0,0,0), 1, &mat);
-  gp->addPrimitive(sphere);
-  delete gp;
+  Scene* scene;
+  Camera* cam = new OrthographicCamera(Vector3(0, 0, 10),
+                                       Vector3(0, 0, -1),
+                                       Vector3(0, 1, 0),
+                                       5);
+
+  scene = new Scene(cam);
+  PhongMaterial mat(Color(0.7, 0.7, 0.7), Color::Black, 0, Color::Black, Color::Black, 0);
+  scene->getPrimitives()->addPrimitive(new Sphere(Vector3(0, 0, 0), 1, &mat));
+  scene->addLight(new Light(Color::White, Vector3(0, 0, -1)));
+  rt = new RayTracer(scene, 1);
+
+  Update();
+  img.saveAsTga("result.tga");
   InitGlut(argc, argv);
   glutMainLoop();
+
+  delete rt;
 
   return 0;
 }

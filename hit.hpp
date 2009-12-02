@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 11:25:10 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 15:23:00 by Eric Scrivner>
 //
 // Description:
 //   Class representing a ray hit on a surface.
@@ -25,6 +25,10 @@ namespace Base {
   // Represents a ray-surface intersection.
   class Hit {
   public:
+    Hit()
+      : distance_(0), normal_(Vector3(0,0,0)), material_(0)
+    { }
+
     Hit(const Real& distance,
         const Vector3& normal,
 	Material* material)

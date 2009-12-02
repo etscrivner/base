@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 11:41:49 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 15:20:47 by Eric Scrivner>
 //
 // Description:
 //   Defines a simple point light source model
@@ -24,7 +24,7 @@ namespace Base {
     Light()
     { }
 
-    Light(const Color& col, const Vector4& dir)
+    Light(const Color& col, const Vector3& dir)
       : color_(col), direction_(dir)
     { }
 
@@ -34,7 +34,7 @@ namespace Base {
     } 
   private:
     Color   color_;
-    Vector4 direction_;
+    Vector3 direction_;
   };
 }
 

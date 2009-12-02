@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 23:58:09 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 01:26:32 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels

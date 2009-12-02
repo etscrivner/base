@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 12:23:08 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-01 23:32:44 by Eric Scrivner>
 //
 // Description:
 //   Class for managing a scene which is to be ray-traced.
@@ -24,7 +24,7 @@ namespace Base {
   class Scene {
   public:
     Scene(Camera* camera)
-      : camera_(camera)
+      : primitives_(new Group()), camera_(camera)
     { }
 
     ~Scene() {
@@ -47,7 +47,7 @@ namespace Base {
     // Function: addLight
     //
     // Adds the given light to this scene
-    addLight(const Light* light) {
+    void addLight(Light* light) {
       lights_.push_back(light);
     }
 
@@ -87,6 +87,12 @@ namespace Base {
     //
     // Returns the camera looking on this scene
     Camera* getCamera() const { return camera_; }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: getPrimitives
+    //
+    // Returns the group containing all the primitives in this scene
+    Group* getPrimitives() const { return primitives_; }
   private:
     ////////////////////////////////////////////////////////////////////////////
     // Type definitions
