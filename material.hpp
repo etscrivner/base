@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 00:41:09 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 13:04:59 by Eric Scrivner>
 //
 // Description:
 //   Class for representing a material's hit by light rays

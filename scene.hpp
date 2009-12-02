@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 23:32:44 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 12:34:23 by Eric Scrivner>
 //
 // Description:
 //   Class for managing a scene which is to be ray-traced.
@@ -68,6 +68,20 @@ namespace Base {
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Function: setBackgroundColor
+    //
+    // Sets the background color of the scene
+    void setBackgroundColor(const Color& background) {
+      background_ = background;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: getBackgroundColor
+    //
+    // Returns the background color of the scene
+    Color getBackgroundColor() const { return background_; }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Function: numLights
     //
     // Returns the number of lights in this scene
@@ -101,6 +115,7 @@ namespace Base {
     LightSetT lights_; // All the lights in a scene.
     Group*    primitives_; // All the primitives in a scene.
     Camera*   camera_; // The camera looking onto the scene.
+    Color     background_; // The background color for the scene.
   };
 }
 

@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 02:12:17 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 12:44:25 by Eric Scrivner>
 //
 // Description:
 //   Contains camera for use in the ray tracer.
@@ -60,9 +60,12 @@ namespace Base {
       : center_(center.normalize()),
         direction_(direction.normalize()), 
         up_(up.normalize()),
-        horizontal_(direction_.crossProduct(up_).normalize()),
+        horizontal_(up_.crossProduct(direction_).normalize()),
         size_(size)        
-    { }
+    {
+      // Form an orthonormal basis with the up vector
+      up_ = direction_.crossProduct(horizontal_).normalize();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     // Function: generateRay
@@ -73,8 +76,8 @@ namespace Base {
     // Returns a ray traveling from point into the scene
     Ray generateRay(const Vector2& point) {
       Vector3 origin = center_;
-      origin += size_ * (point.x - 0.5) * horizontal_;
-      origin += size_ * (point.y - 0.5) * up_;
+      origin += (point.x - 0.5) * size_ * horizontal_;
+      origin += (point.y - 0.5) * size_ * up_;
       return Ray(origin, direction_);
     }
   private:

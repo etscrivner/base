@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 01:17:08 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 12:35:48 by Eric Scrivner>
 //
 // Description:
 //   Class for tracing the path of rays and computing shading.
@@ -22,7 +22,7 @@ namespace Base {
   // Class: RayTracer
   //
   // Traces rays into a scene and computes the color of the light at a given
-  // point in the scene.
+  // point in the scene. Based on MIT OCW design.
   class RayTracer {
   public:
     ////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ namespace Base {
       // If the current depth exceeds the maximum depth
       if (depth > maxDepth_) {
 	// Return the background color
-	return Color::Black;
+	return scene_->getBackgroundColor();
       }
 
       // Put the hit very far away initially
@@ -90,7 +90,7 @@ namespace Base {
 	return result;
       }
 
-      return Color::Black;
+      return scene_->getBackgroundColor();
     }
   private:
     Scene* scene_; // The scene to be ray-traced

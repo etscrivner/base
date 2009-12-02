@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 01:29:13 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 13:41:45 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels
@@ -15,9 +15,9 @@
 using namespace std;
 
 void Base::Image::draw(const int& xMin, const int& yMin) {
-  for (int y = 0; y < height_; y++) {
+  for (int y = height_ - 1; y >= 0; y--) {
     for (int x = 0; x < width_; x++) {
-      Plot(xMin + x, yMin + y, pixelAt(x, y));
+      Plot(xMin + x, yMin - y, pixelAt(x, y));
     }
   }
 }
@@ -66,7 +66,7 @@ void Base::Image::saveAsTga(string fileName) {
   tgaOut.put(24); // 24 bits-per-pixel
   tgaOut.put(0); // No alpha
 
-  // Flip y so that (0, 0) is at the bottom-left corner
+  // Output all the pixel colors in the image
   for (int y = height_ - 1; y >= 0; y--) {
     for (int x = 0; x < width_; x++) {
       Color c = pixelAt(x, y);

@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 02:15:47 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 13:41:25 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -35,8 +35,10 @@ const int kYMax = (kWindowHeight / 2);
 const int kXMin = -kXMax;
 const int kYMin = -kYMax;
 
+const Real kStepSize = 1.0F / (Real)kWindowWidth;
+
 ////////////////////////////////////////////////////////////////////////////////
-// Scene
+// Ray Tracer
 RayTracer* rt = 0;
 Image img(kWindowWidth, kWindowHeight);
 
@@ -49,7 +51,7 @@ void Redraw() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   // Draw the image
-  img.draw(kXMin, kYMin);
+  img.draw(kXMin, kYMax);
 
   // Swap the redraw buffer onto the screen
   glutSwapBuffers();
@@ -91,26 +93,38 @@ void OnKeyPress(unsigned char key, int, int) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Function: ToPixelX
+//
+// Translates the given real coordinate value on [0, 1] to a pixel position
+// in terms of the number of horizontal and vertical pixels on the screen.
+int ToPixelX(const Real& coord) {
+  return (coord - 0.5) * kWindowWidth + kXMax;
+}
+
+int ToPixelY(const Real& coord) {
+  return (coord - 0.5) * kWindowHeight + kYMax;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Function: Update
 //
 // Handles the idle loop updating of the simulation components
-Real normalizeX(int x) { return (x < 0) ? -(Real)(kXMax + x) / kXMax : (Real)x / kXMax; }
-Real normalizeY(int y) { return (y < 0) ? -(Real)(kYMax + y) / kYMax : (Real)y / kYMax; }
-Vector2 normalized(int x, int y) { return Vector2(normalizeX(x), normalizeY(y)); }
-
 void Update() {
   Ray nextRay(Vector3(0,0,0), Vector3(0,0,0));
   Hit hit;
   Color pixVal;
 
-  for (int y = kYMin; y < kYMax; y++) {
-    for (int x = kXMin; x < kXMax; x++) {
-      nextRay = rt->getScene()->getCamera()->generateRay(normalized(x, y));
+  // For each pixel on the screen
+  for (Real y = 0; y < 1.0F; y += kStepSize) {
+    for (Real x = 0; x < 1.0F; x += kStepSize) {
+      // Generate a ray from that pixel into the scene
+      nextRay = rt->getScene()->getCamera()->generateRay(Vector2(x, y));
+      
+      // Compute the color of the pixel illuminated by that ray
       pixVal = rt->traceRay(nextRay, 0, hit);
-      img.setPixel(x + kXMax, y + kYMax, pixVal);
+      img.setPixel(ToPixelX(x), ToPixelY(y), pixVal);
     }
   }
-
   glutPostRedisplay();
 }
 
@@ -141,13 +155,15 @@ int main(int argc, char* argv[]) {
                                        5);
 
   scene = new Scene(cam);
-  PhongMaterial mat(Color(0.7, 0.7, 0.7), Color::Black, 0, Color::Black, Color::Black, 0);
-  scene->getPrimitives()->addPrimitive(new Sphere(Vector3(0, 0, 0), 1, &mat));
-  scene->addLight(new Light(Color::White, Vector3(0, 0, -1)));
+  PhongMaterial mat(Color(0.7, 0.7, 0.7), Color(0.1, 0.1, 0.1), 8, Color::Black, Color::Black, 0);
+  scene->getPrimitives()->addPrimitive(new Sphere(Vector3(0, -1, 0), 1, &mat));
+  scene->addLight(new Light(Color::White, Vector3(1, 1, -1)));
+  scene->setBackgroundColor(Color::Black);
   rt = new RayTracer(scene, 1);
 
   Update();
   img.saveAsTga("result.tga");
+
   InitGlut(argc, argv);
   glutMainLoop();
 

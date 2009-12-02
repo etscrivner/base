@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 01:12:54 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 13:31:18 by Eric Scrivner>
 //
 // Description:
 //   Primitive shapes for ray-surface intersections
@@ -116,16 +116,34 @@ namespace Base {
       Vector3 co = center_ - ray.origin;
       Real rayCos = co.dotProduct(ray.direction);
       Real distance = -1;
+      
+      // Since this gives us the distance of the closest point from the sphere,
+      // if this value is less than zero then we can detect a non-intersection
+      // early.
+      if (rayCos < 0) {
+	return false;
+      }
 
       // Compute the discriminant
       Real discTmp = (co - (co.dotProduct(ray.direction) * ray.direction)).magnitude();
       Real disc = pow(radius_, 2) - pow(discTmp, 2);
       
-      // If the value is non-imaginary
-      if (disc >= 0) {
-	// Compute the distance to the intersection
-	distance = (disc < 0) ? 0 : min(rayCos + sqrt(disc),
-	                                rayCos - sqrt(disc));
+      // Now we must ensure that we have two real solutions to this equation.
+      // If the discriminant is less than zero we know we have two imagniary
+      // solutions, and if it is exactly zero then we have the degenerate
+      // case of a ray tangent to the sphere. Due to floating point rounding
+      // errors we must ensure that the discriminant is greater than some
+      // epsilon value in order to catch the degenerate case.
+      if (disc > 0.01) {
+	// Now we can compute the solutions, however we must still check for
+	// the case of a ray originating inside a sphere. To do this we check
+	// for one negative and one positive solution, in this case we take the
+	// positive solution, otherwise we take the minimum of the two solutions
+	if (rayCos - sqrt(disc) < 0) {
+	  distance = rayCos + sqrt(disc);
+	} else {
+	  distance = min(rayCos + sqrt(disc), rayCos - sqrt(disc));
+	}
 
 	// If the distance was positive and closer than the closest hit
 	if (distance >= 0 && distance < hit.getDistance()) {
