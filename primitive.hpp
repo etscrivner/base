@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 13:31:18 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 14:08:04 by Eric Scrivner>
 //
 // Description:
 //   Primitive shapes for ray-surface intersections
@@ -146,7 +146,7 @@ namespace Base {
 	}
 
 	// If the distance was positive and closer than the closest hit
-	if (distance >= 0 && distance < hit.getDistance()) {
+	if (distance >= 0 && distance <= hit.getDistance()) {
 	  // Compute the surface normal
 	  Vector3 normal = ray.positionAtTime(distance) - center_;
 	  
@@ -181,7 +181,7 @@ namespace Base {
     { }
 
     bool intersection(const Ray& ray, Hit& hit) {
-      // TODO: Write ray-triangle intersection code
+      
       return false;
     }
   private:

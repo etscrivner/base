@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 13:41:25 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 14:07:38 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -25,7 +25,6 @@ using namespace Base;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
-
 const unsigned int kWindowWidth  = 200;
 const unsigned int kWindowHeight = 200;
 const char*        kWindowTitle  = "Symphony App";
@@ -101,6 +100,10 @@ int ToPixelX(const Real& coord) {
   return (coord - 0.5) * kWindowWidth + kXMax;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Function: ToPixelY
+//
+// Same as ToPixelY but for the y pixel coordinates.
 int ToPixelY(const Real& coord) {
   return (coord - 0.5) * kWindowHeight + kYMax;
 }
@@ -148,17 +151,32 @@ void InitGlut(int& argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-  Scene* scene;
+  // Camera setup
   Camera* cam = new OrthographicCamera(Vector3(0, 0, 10),
                                        Vector3(0, 0, -1),
                                        Vector3(0, 1, 0),
                                        5);
 
-  scene = new Scene(cam);
-  PhongMaterial mat(Color(0.7, 0.7, 0.7), Color(0.1, 0.1, 0.1), 8, Color::Black, Color::Black, 0);
-  scene->getPrimitives()->addPrimitive(new Sphere(Vector3(0, -1, 0), 1, &mat));
+  // Scene initialization
+  Scene* scene = new Scene(cam);
+  scene->setBackgroundColor(Color(0.2, 0.2, 0.2));
+
+  // Scene lights
   scene->addLight(new Light(Color::White, Vector3(1, 1, -1)));
-  scene->setBackgroundColor(Color::Black);
+
+  // Scene primitives
+  PhongMaterial bigSphere(Color::Red, Color::Black, 0, Color::Black, Color::Black, 0);
+  PhongMaterial tinySphere1(Color::Green, Color::Black, 0, Color::Black, Color::Black, 0);
+  PhongMaterial tinySphere2(Color::Blue, Color::Black, 0, Color::Black, Color::Black, 0);
+
+  Group* group = scene->getPrimitives();
+  group->addPrimitive(new Sphere(Vector3(0, 0, -1), 1, &bigSphere));
+  group->addPrimitive(new Sphere(Vector3(1, 1, 0), 0.75, &tinySphere1));
+  group->addPrimitive(new Sphere(Vector3(-1, -1, 0), 0.75, &tinySphere1));
+  group->addPrimitive(new Sphere(Vector3(-1, 1, -2), 0.75, &tinySphere2));
+  group->addPrimitive(new Sphere(Vector3(1, -1, -2), 0.75, &tinySphere2));
+
+  // Ray tracer setup
   rt = new RayTracer(scene, 1);
 
   Update();
