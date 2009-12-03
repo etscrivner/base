@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 14:07:38 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-03 01:13:32 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -25,8 +25,8 @@ using namespace Base;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
-const unsigned int kWindowWidth  = 200;
-const unsigned int kWindowHeight = 200;
+const unsigned int kWindowWidth  = 400;
+const unsigned int kWindowHeight = 400;
 const char*        kWindowTitle  = "Symphony App";
 
 const int kXMax = (kWindowWidth / 2);
@@ -50,7 +50,7 @@ void Redraw() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   // Draw the image
-  img.draw(kXMin, kYMax);
+  img.draw(kXMin, kYMin);
 
   // Swap the redraw buffer onto the screen
   glutSwapBuffers();
@@ -124,7 +124,7 @@ void Update() {
       nextRay = rt->getScene()->getCamera()->generateRay(Vector2(x, y));
       
       // Compute the color of the pixel illuminated by that ray
-      pixVal = rt->traceRay(nextRay, 0, hit);
+      pixVal = rt->traceRay(nextRay, 0, 0.0001, 1.0F, 1.0F, hit);
       img.setPixel(ToPixelX(x), ToPixelY(y), pixVal);
     }
   }
@@ -152,33 +152,60 @@ void InitGlut(int& argc, char* argv[]) {
 
 int main(int argc, char* argv[]) {
   // Camera setup
-  Camera* cam = new OrthographicCamera(Vector3(0, 0, 10),
-                                       Vector3(0, 0, -1),
+  // Camera* cam = new OrthographicCamera(Vector3(0, 0, 10),
+  //                                      Vector3(0, -0.1, -1),
+  //                                      Vector3(0, 1, 0),
+  //                                      5);
+
+  Camera* cam  = new PerspectiveCamera(Vector3(0, 0.5, 5),
+                                       Vector3(0, -0.1, -1),
                                        Vector3(0, 1, 0),
-                                       5);
+                                       30);
 
   // Scene initialization
   Scene* scene = new Scene(cam);
-  scene->setBackgroundColor(Color(0.2, 0.2, 0.2));
+  scene->setAmbient(Color(0.1, 0.1, 0.1));
+  scene->setBackgroundColor(Color(0.2, 0.1, 0.6));
 
   // Scene lights
-  scene->addLight(new Light(Color::White, Vector3(1, 1, -1)));
-
+  scene->addLight(new Light(Color(0.8, 0.8, 0.8), Vector3(0.5, -1, 0)));
   // Scene primitives
-  PhongMaterial bigSphere(Color::Red, Color::Black, 0, Color::Black, Color::Black, 0);
-  PhongMaterial tinySphere1(Color::Green, Color::Black, 0, Color::Black, Color::Black, 0);
-  PhongMaterial tinySphere2(Color::Blue, Color::Black, 0, Color::Black, Color::Black, 0);
+  PhongMaterial sphereOne(Color(0.1, 0.1, 0.1),
+                          Color::White,
+                          50,
+                          Color::Black,
+                          Color(0.9, 0.9, 0.9),
+                          1);
+  PhongMaterial sphereTwo(Color(1, 0.1, 0.1),
+                          Color::White,
+                          50,
+                          Color::Black,
+                          Color(0.9, 0.1, 0.1),
+                          2.8);
+  PhongMaterial plane(Color::White,
+                      Color::Black,
+                      0,
+                      Color::Black,
+                      Color::Black,
+                      1);
 
   Group* group = scene->getPrimitives();
-  group->addPrimitive(new Sphere(Vector3(0, 0, -1), 1, &bigSphere));
-  group->addPrimitive(new Sphere(Vector3(1, 1, 0), 0.75, &tinySphere1));
-  group->addPrimitive(new Sphere(Vector3(-1, -1, 0), 0.75, &tinySphere1));
-  group->addPrimitive(new Sphere(Vector3(-1, 1, -2), 0.75, &tinySphere2));
-  group->addPrimitive(new Sphere(Vector3(1, -1, -2), 0.75, &tinySphere2));
+  group->addPrimitive(new Sphere(Vector3(0.3, 0, -1), 1, &sphereOne));
+  group->addPrimitive(new Sphere(Vector3(-0.5, -0.6, 0.5), 0.4, &sphereTwo));
+  group->addPrimitive(new Plane(Vector3(0, 1, 0), 1, &plane));
+  // PhongMaterial bigSphere(Color::Red, Color::Black, 0, Color(0.9, 0.9, 0.9), Color::Black, 1.5);
+  // PhongMaterial tinySphere1(Color::Green, Color::Black, 0, Color::Black, Color::Black, 0);
+  // PhongMaterial tinySphere2(Color::Blue, Color::Black, 0, Color::Black, Color::Black, 0);
+
+  // Group* group = scene->getPrimitives();
+  // group->addPrimitive(new Sphere(Vector3(0, 0, -1), 1, &bigSphere));
+  // group->addPrimitive(new Sphere(Vector3(1, 1, 0), 0.75, &tinySphere1));
+  // group->addPrimitive(new Sphere(Vector3(-1, -1, 0), 0.75, &tinySphere1));
+  // group->addPrimitive(new Sphere(Vector3(-1, 1, -2), 0.75, &tinySphere2));
+  // group->addPrimitive(new Sphere(Vector3(1, -1, -2), 0.75, &tinySphere2));
 
   // Ray tracer setup
-  rt = new RayTracer(scene, 1);
-
+  rt = new RayTracer(scene, 5, 0.01);
   Update();
   img.saveAsTga("result.tga");
 

@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 13:04:59 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-03 00:41:27 by Eric Scrivner>
 //
 // Description:
 //   Class for representing a material's hit by light rays
@@ -62,6 +62,18 @@ namespace Base {
                         const Vector3& dirToLight,
                         const Color& lightColor) const = 0;
 
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: isTransparent
+    //
+    // Indicates whether or not this material refracts light
+    bool isTransparent() { return (refraction > Color::Black); }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: isReflective
+    //
+    // Indicates whether or not this material reflects light
+    bool isReflective() { return (reflection > Color::Black); }
+
     Color diffuse, refraction, reflection;
     Real  indexOfRefraction;
   };
@@ -100,9 +112,11 @@ namespace Base {
       Color result = lightColor * diffuse * (l.dotProduct(n));
 
       // Specular lighting as C_s * (V . R)^(alpha)
-      Vector3 v = -ray.direction;
-      Vector3 r = (l - 2 * l.dotProduct(n) * n).normalize();
-      result += lightColor * specular * pow(v.dotProduct(r), shininess);
+      if (specular > Color::Black) {
+	Vector3 v = -ray.direction;
+	Vector3 r = (l - (2 * l.dotProduct(n)) * n).normalize();
+	result += lightColor * specular * pow(v.dotProduct(r), shininess);
+      }
 
       return result;
     }

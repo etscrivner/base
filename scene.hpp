@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 12:34:23 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 19:26:54 by Eric Scrivner>
 //
 // Description:
 //   Class for managing a scene which is to be ray-traced.
@@ -24,7 +24,7 @@ namespace Base {
   class Scene {
   public:
     Scene(Camera* camera)
-      : primitives_(new Group()), camera_(camera)
+      : primitives_(new Group()), camera_(camera), ambient_(Color::Black)
     { }
 
     ~Scene() {
@@ -66,6 +66,18 @@ namespace Base {
 
       camera_ = camera;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: setAmbient
+    //
+    // Sets the ambient lighting in the scene
+    void setAmbient(const Color& ambient) { ambient_ = ambient; }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: getAmbient
+    //
+    // Returns the ambient lighting color in the scene
+    Color getAmbient() const { return ambient_; }
 
     ////////////////////////////////////////////////////////////////////////////
     // Function: setBackgroundColor
@@ -116,6 +128,7 @@ namespace Base {
     Group*    primitives_; // All the primitives in a scene.
     Camera*   camera_; // The camera looking onto the scene.
     Color     background_; // The background color for the scene.
+    Color     ambient_; // The ambient light color and intensity
   };
 }
 

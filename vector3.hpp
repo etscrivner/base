@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 00:01:13 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 20:16:38 by Eric Scrivner>
 //
 // Description:
 //   3D vector class.
@@ -118,7 +118,7 @@ namespace Base {
     // Function: dotProduct
     //
     // Returns the dot (scalar) product of this vector with another
-    inline Real dotProduct(const Vector3& rhs) {
+    inline Real dotProduct(const Vector3& rhs) const {
       return x * rhs.x + y * rhs.y + z * rhs.z;
     }
 
@@ -126,7 +126,7 @@ namespace Base {
     // Function: crossProduct
     //
     // Returns the cross (vector) product of this vector with another
-    inline Vector3 crossProduct(const Vector3& rhs) {
+    inline Vector3 crossProduct(const Vector3& rhs) const {
       return Vector3(y * rhs.z - z * rhs.y,
                      z * rhs.x - x * rhs.z,
                      x * rhs.y - y * rhs.x);

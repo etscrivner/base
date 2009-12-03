@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 15:20:47 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-02 19:12:39 by Eric Scrivner>
 //
 // Description:
 //   Defines a simple point light source model
@@ -28,7 +28,8 @@ namespace Base {
       : color_(col), direction_(dir)
     { }
 
-    void illuminationAt(const Vector3& pnt, Vector3& dir, Color& col) {
+    void illuminationAt(const Vector3& pnt, Vector3& dir,
+                        Color& col) {
       col = color_;
       dir = -1.0 * direction_;
     } 

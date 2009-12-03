@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-01 00:24:24 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-03 00:40:58 by Eric Scrivner>
 //
 // Description:
 //   Defines a class for representing and manipulating colors
@@ -14,6 +14,7 @@
 #include <cmath>
 
 #include "base.hpp"
+#include "vector3.hpp"
 
 namespace Base {
   //////////////////////////////////////////////////////////////////////////////
@@ -116,6 +117,16 @@ namespace Base {
       return Color(r / rhs.r,
                    g / rhs.g,
                    b / rhs.b);
+    }
+
+    bool operator > (const Color& rhs) const {
+      return (fabs(r - rhs.r) > 0.0001 &&
+              fabs(g - rhs.g) > 0.0001 &&
+              fabs(b - rhs.b) > 0.0001);
+    }
+
+    Real magnitude() const {
+      return Vector3(r, g, b).magnitude();
     }
 
     ////////////////////////////////////////////////////////////////////////////
