@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-03 01:13:52 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-03 01:20:19 by Eric Scrivner>
 //
 // Description:
 //   Class for tracing the path of rays and computing shading.
@@ -107,15 +107,21 @@ namespace Base {
 	  if (hit.getMaterial()->isTransparent()) {
 	    // Construct a new ray
 	    nextRay.origin = hitPoint;
-	    nextRay.direction = getRefractionDir(ray, hit.getNormal(),
-	                                         indexOfRefraction, hit.getMaterial()->indexOfRefraction);
+	    nextRay.direction = getRefractionDir(ray,
+	                                         hit.getNormal(),
+	                                         indexOfRefraction,
+	                                         hit.getMaterial()->indexOfRefraction);
 
 	    Real mag = Vector3(hit.getMaterial()->refraction.r,
 	                       hit.getMaterial()->refraction.g,
 	                       hit.getMaterial()->refraction.b).magnitude();
 	    Hit hit3;
-	    result += hit.getMaterial()->refraction * traceRay(nextRay, depth + 1, tmin,
-	                                                       weight * mag, hit.getMaterial()->indexOfRefraction, hit3);
+	    result += hit.getMaterial()->refraction * traceRay(nextRay,
+	                                                       depth + 1,
+	                                                       tmin,
+	                                                       weight * mag,
+	                                                       hit.getMaterial()->indexOfRefraction,
+	                                                       hit3);
 	  }
 	}
 
