@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-03 01:13:32 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 04:12:00 by Eric Scrivner>
 //
 // Description:
 //  Sample application entry point
@@ -169,19 +169,20 @@ int main(int argc, char* argv[]) {
 
   // Scene lights
   scene->addLight(new Light(Color(0.8, 0.8, 0.8), Vector3(0.5, -1, 0)));
+
   // Scene primitives
   PhongMaterial sphereOne(Color(0.1, 0.1, 0.1),
                           Color::White,
                           50,
-                          Color::Black,
+                          Color::Black,//Color(0.9, 0.9, 0.9),
                           Color(0.9, 0.9, 0.9),
                           1);
   PhongMaterial sphereTwo(Color(1, 0.1, 0.1),
                           Color::White,
                           50,
-                          Color::Black,
                           Color(0.9, 0.1, 0.1),
-                          2.8);
+                          Color::Black,//Color(0.9, 0.1, 0.1),
+                          1.8);
   PhongMaterial plane(Color::White,
                       Color::Black,
                       0,

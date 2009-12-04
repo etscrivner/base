@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-03 01:20:19 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-03 17:44:47 by Eric Scrivner>
 //
 // Description:
 //   Class for tracing the path of rays and computing shading.
@@ -160,7 +160,8 @@ namespace Base {
     // Function: getRefractionDir
     //
     // Returns the direction of the refracted ray the current ray, a surface
-    // normal and the incident and material indices of refraction.
+    // normal and the incident and material indices of refraction using Snell's
+    // refraction law.
     Vector3 getRefractionDir(const Ray& ray, const Vector3& normal,
                              Real incidentRefraction, Real materialRefraction) const {
       // Use snells law to compute the index of refraction

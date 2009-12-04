@@ -2,12 +2,11 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-25 12:54:48 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-03 17:46:35 by Eric Scrivner>
 //
 // Description:
 //   Class for a 3x3 real matrix.
 ////////////////////////////////////////////////////////////////////////////////
-
 #ifndef MATRIX33_HPP__
 #define MATRIX33_HPP__
 

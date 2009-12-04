@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-03 00:47:37 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 04:03:50 by Eric Scrivner>
 //
 // Description:
 //   Primitive shapes for ray-surface intersections
@@ -13,6 +13,7 @@
 #include "hit.hpp"
 #include "ray.hpp"
 #include "vector3.hpp"
+#include "matrix33.hpp"
 
 #include <memory>
 #include <vector>
@@ -222,7 +223,49 @@ namespace Base {
     { }
 
     bool intersection(const Ray& ray, Hit& hit, Real tmin) {
-      
+      // First set up some vectors we'll need
+      Vector3 Eb = v2_ - v1_; // (b-a)
+      Vector3 Ec = v3_ - v1_; // (c-a)
+      Vector3 Ea = v1_ - ray.origin; 
+      Matrix33 T(-Eb.x, -Ec.x, Ea.x,
+                 -Eb.y, -Ec.y, Ea.y,
+                 -Eb.z, -Ec.z, Ea.z);
+
+      Matrix33 C(-Eb.x, Ea.x, ray.direction.x,
+                 -Eb.y, Ea.y, ray.direction.y,
+                 -Eb.z, Ea.z, ray.direction.z);
+
+      Matrix33 B(Ea.x, -Ec.x, ray.direction.x,
+                 Ea.y, -Ec.y, ray.direction.y,
+                 Ea.z, -Ec.z, ray.direction.z);
+
+      Matrix33 A(-Eb.x, -Ec.x, ray.direction.x,
+                 -Eb.y, -Ec.y, ray.direction.y,
+                 -Eb.z, -Ec.z, ray.direction.z);
+
+      // Firstly ensure that A is not a singular matrix
+      Real detA = A.determinant();
+
+      if (detA != 0) { 
+	// Now compute the distsance and barycentric coords
+	Real dist = T.determinant() / detA;
+	Real beta = B.determinant() / detA;
+	Real gamma = C.determinant() / detA;
+
+	// If the triangle is in front of us
+	if (dist >= tmin) {
+	  // If we have coordinates inside our triangle
+	  if (beta >= tmin && gamma >= tmin && beta + gamma < 1.0) {
+	    // If this hit is closer than the current one
+	    if (dist <= hit.getDistance()) {
+	      hit.setDistance(dist);
+	      hit.setMaterial(material);
+	      hit.setNormal(v1_.crossProduct(v2_).normalize());
+	    }
+	  }
+	}
+      }
+
       return false;
     }
   private:
