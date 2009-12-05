@@ -2,7 +2,7 @@
 // Base: A Computer Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-03 17:44:47 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 18:42:44 by Eric Scrivner>
 //
 // Description:
 //   Class for tracing the path of rays and computing shading.
@@ -37,6 +37,12 @@ namespace Base {
     RayTracer(Scene* scene, int maxDepth, Real minWeight)
       : scene_(scene), maxDepth_(maxDepth), minWeight_(minWeight)
     { }
+
+    ~RayTracer() {
+      if (scene_ != 0) {
+	delete scene_;
+      }
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     // Function: getScene

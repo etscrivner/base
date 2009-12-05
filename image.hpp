@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 01:26:32 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 18:49:43 by Eric Scrivner>
 //
 // Description:
 //   Class for maniuplating an image as an array of pixels
@@ -31,6 +31,29 @@ namespace Base {
     ~Image() {
       delete [] data_;
     }
+
+    Image& operator = (const Image& rhs) {
+      Color* tmpData = 0;
+
+      try {
+	tmpData = new Color[rhs.width_ * rhs.height_];
+	memcpy(tmpData, rhs.data_, sizeof(Color) * rhs.width_ * rhs.height_);
+      } catch (...) {
+	delete [] tmpData;
+	throw;
+      }
+      
+      if (data_ != 0) {
+	delete [] data_;
+      }
+
+      data_ = tmpData;
+      width_ = rhs.width_;
+      height_ = rhs.height_;
+
+      return *this;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////
     // Function: width

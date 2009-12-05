@@ -1,13 +1,13 @@
 # Makefile for Base
 # Author: Eric Scrivner
 #
-# Time-stamp: <Last modified 2009-11-29 17:45:53 by Eric Scrivner>
+# Time-stamp: <Last modified 2009-12-04 15:03:49 by Eric Scrivner>
 #
 # Makefile which provides a starting point for building a base project
 CC = g++
 CCFLAGS = -Wall -c
 OBJECTS = color.o plot.o draw_line.o image.o model.o main.o
-NAME = base
+NAME = raytrace
 
 SHELL = /bin/sh
 OS = $(shell uname -s)

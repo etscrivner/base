@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-03 00:26:34 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 23:10:24 by Eric Scrivner>
 //
 // Description:
 //   Contains camera for use in the ray tracer.
@@ -95,15 +95,20 @@ namespace Base {
   // appearance.
   class PerspectiveCamera : public Camera {
   public:
-    PerspectiveCamera(Vector3 center, Vector3 direction, Vector3 up, Real angle)
+    PerspectiveCamera(Vector3 center,
+                      Vector3 direction,
+                      Vector3 up,
+                      int height,
+                      Real aspect,
+                      Real angle)
       : center_(center),
         direction_(direction.normalize()),
         horizontal_(up.crossProduct(direction_).normalize()),
         up_(direction_.crossProduct(horizontal_).normalize()),
         angle_(angle * 3.14159 / 180)
     {
-      horizontal_ = horizontal_ * 2 * tan(angle_ / 2);
-      up_ = up_ * 2 * tan(angle_ / 2);
+      horizontal_ = 2 * aspect *  horizontal_ * tan(angle_ / 2);
+      up_ = 2 * up_ * tan(angle_ / 2);
     }
 
     Ray generateRay(const Vector2& point) {

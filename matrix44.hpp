@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-14 11:10:46 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 16:42:25 by Eric Scrivner>
 //
 // Description:
 //   Class for a 4x4 homogeneous matrix and its corresponding operations.
@@ -92,6 +92,28 @@ namespace Base {
                       m[0][1], m[1][1], m[2][1], m[3][1],
                       m[0][2], m[1][2], m[2][2], m[3][2],
                       m[0][3], m[1][3], m[2][3], m[3][3]);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: makeScale
+    //
+    // Converts this matrix to a scaling matrix with the given scaling factors
+    inline void makeScale(const Real& sx, const Real& sy, const Real& sz) {
+      m[0][0] = sx; m[0][1] =  0; m[0][2] =  0; m[0][3] = 0;
+      m[1][0] =  0; m[1][1] = sy; m[1][2] =  0; m[1][3] = 0;
+      m[2][0] =  0; m[2][1] =  0; m[2][2] = sz; m[2][3] = 0;
+      m[3][0] =  0; m[3][1] =  0; m[3][2] =  0; m[3][3] = 1;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: makeTranslate
+    //
+    // Converts this matrix to a translation matrix with the given displacements
+    inline void makeTranslate(const Real& dx, const Real& dy, const Real& dz) {
+      m[0][0] = 1; m[0][1] = 0; m[0][2] = 0; m[0][3] = dx;
+      m[1][0] = 0; m[1][1] = 1; m[1][2] = 0; m[1][3] = dy;
+      m[2][0] = 0; m[2][1] = 0; m[2][2] = 1; m[2][3] = dz;
+      m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
 
     ////////////////////////////////////////////////////////////////////////////

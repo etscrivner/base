@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-02 19:12:39 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 19:50:27 by Eric Scrivner>
 //
 // Description:
 //   Defines a simple point light source model

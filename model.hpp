@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-11-30 23:57:54 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 16:26:00 by Eric Scrivner>
 //
 // Description:
 //   Represents a model loaded from an OBJ file and provides methods for
@@ -13,11 +13,18 @@
 #define MODEL_HPP__
 
 #include "color.hpp"
+#include "matrix44.hpp"
 #include "vector3.hpp"
 
 #include <vector>
 
 namespace Base {
+  //////////////////////////////////////////////////////////////////////////////
+  // Forward definitions
+  class Group;
+  class Material;
+  class Triangle;
+
   //////////////////////////////////////////////////////////////////////////////
   // Type definitions
   typedef Vector3 Vertex;
@@ -86,6 +93,24 @@ namespace Base {
     void draw(const Vector3& pos);
 
     //////////////////////////////////////////////////////////////////////////////
+    // Function: toPrimtive
+    //
+    // Parameters:
+    //   material - The material to be used for the primitives
+    //
+    // Converts this model into a primitive group (a group of triangles).
+    Group* toPrimitive(Material* material);
+
+    //////////////////////////////////////////////////////////////////////////////
+    // Function: transform
+    //
+    // Parameters:
+    //   transformation - The transformation matrix
+    //
+    // Applies the given transformation to all the vertices of this object
+    void transform(const Matrix44& transformation);
+
+    //////////////////////////////////////////////////////////////////////////////
     // Function: addVertex
     //
     // Parameters:
@@ -124,6 +149,15 @@ namespace Base {
     // Renders a triangle using the given vertices and Bresenham's line
     // drawing algorithm.
     void _drawTriangle(size_t& v1, size_t& v2, size_t& v3);
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Function: _makeTriangle
+    //
+    // Parameters:
+    //  v1, v2, v3 - The vertex indices forming the triangle
+    //
+    // Creates a new triangle primitive with the corresponding vertices.
+    Triangle* _makeTriangle(size_t& v1, size_t& v2, size_t& v3, Material* mat);
 
     ////////////////////////////////////////////////////////////////////////////
     // Type definition

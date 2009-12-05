@@ -2,7 +2,7 @@
 // Base: A Simple Graphics Suite
 // Author: Eric Scrivner
 //
-// Time-stamp: <Last modified 2009-12-04 04:03:50 by Eric Scrivner>
+// Time-stamp: <Last modified 2009-12-04 23:43:36 by Eric Scrivner>
 //
 // Description:
 //   Primitive shapes for ray-surface intersections
@@ -144,11 +144,11 @@ namespace Base {
 	if (rayCos - sqrt(disc) < 0) {
 	  distance = rayCos + sqrt(disc);
 	} else {
-	  distance = min(rayCos + sqrt(disc), rayCos - sqrt(disc));
+	  distance = std::min(rayCos + sqrt(disc), rayCos - sqrt(disc));
 	}
 
 	// If the distance was positive and closer than the closest hit
-	if (distance >= tmin && distance < hit.getDistance()) {
+	if (distance >= tmin && distance <= hit.getDistance()) {
 	  // Compute the surface normal
 	  Vector3 normal = ray.positionAtTime(distance) - center_;
 	  
@@ -188,7 +188,7 @@ namespace Base {
 	Real distance = -(v0 / vd);
 
 	// Return the intersection hit
-	if (distance >= tmin && distance < hit.getDistance()) {
+	if (distance >= tmin && distance <= hit.getDistance()) {
 	  if (vd >= 0.0) {
 	    hit.setNormal(-normal_);
 	  } else {
@@ -255,12 +255,13 @@ namespace Base {
 	// If the triangle is in front of us
 	if (dist >= tmin) {
 	  // If we have coordinates inside our triangle
-	  if (beta >= tmin && gamma >= tmin && beta + gamma < 1.0) {
+	  if (beta >= 0 && gamma >= 0 && beta + gamma < 1.0) {
 	    // If this hit is closer than the current one
 	    if (dist <= hit.getDistance()) {
 	      hit.setDistance(dist);
 	      hit.setMaterial(material);
-	      hit.setNormal(v1_.crossProduct(v2_).normalize());
+	      hit.setNormal(-(Eb.crossProduct(Ec).normalize()));
+	      return true;
 	    }
 	  }
 	}
